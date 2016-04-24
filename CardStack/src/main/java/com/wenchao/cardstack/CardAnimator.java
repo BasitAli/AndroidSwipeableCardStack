@@ -73,14 +73,17 @@ public class CardAnimator{
         int size = mCardCollection.size();
         for(View v : mCardCollection){
             int index =  mCardCollection.indexOf(v);
-            if(index!=0){
-                index-=1;
+            int reversedIndex = size - index - 1;
+
+            if (reversedIndex == size - 1) {
+                reversedIndex -= 1;
             }
+
             LayoutParams params = cloneParams(baseLayout);
             v.setLayoutParams(params);
 
-            scale(v, -(size - index - 1) * mStackMargin);
-            move(v, (index * 2 * mStackMargin) - (2 * mStackMargin), 0);
+            scale(v, -(reversedIndex * mStackMargin) );
+            move(v, - (reversedIndex * 2 * mStackMargin), 0);
             v.setRotation(0);
         }
 
