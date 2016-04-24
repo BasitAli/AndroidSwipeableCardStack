@@ -39,7 +39,6 @@ public class CardAnimator{
 
     }
     private void setup(){
-        mLayoutsMap = new HashMap<View,RelativeLayout.LayoutParams>();
 
         for(View v : mCardCollection){
             //setup basic layout
@@ -60,11 +59,11 @@ public class CardAnimator{
 
         initLayout();
 
-        for (View v : mCardCollection){
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
-            RelativeLayout.LayoutParams paramsCopy =  cloneParams(params);
-            mLayoutsMap.put(v, paramsCopy);
-        }
+//        for (View v : mCardCollection){
+//            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
+//            RelativeLayout.LayoutParams paramsCopy =  cloneParams(params);
+//            mLayoutsMap.put(v, paramsCopy);
+//        }
 
         setupRemotes();
 
@@ -80,9 +79,16 @@ public class CardAnimator{
             LayoutParams params = cloneParams(baseLayout);
             v.setLayoutParams(params);
 
-            scale(v, -(size - index - 1) * 5);
-            move(v, index * mStackMargin, 0);
+            scale(v, -(size - index - 1) * mStackMargin);
+            move(v, (index * 2 * mStackMargin) - (2 * mStackMargin), 0);
             v.setRotation(0);
+        }
+
+        mLayoutsMap = new HashMap<View,RelativeLayout.LayoutParams>();
+        for (View v : mCardCollection){
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
+            RelativeLayout.LayoutParams paramsCopy =  cloneParams(params);
+            mLayoutsMap.put(v, paramsCopy);
         }
     }
 
