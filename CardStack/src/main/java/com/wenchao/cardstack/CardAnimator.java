@@ -94,10 +94,10 @@ public class CardAnimator{
 
     private void setupRemotes(){
         View topView = getTopView();
-        mRemoteLayouts[0] = getMoveParams(topView, REMOTE_DISTANCE, -REMOTE_DISTANCE);
-        mRemoteLayouts[1] = getMoveParams(topView, REMOTE_DISTANCE, REMOTE_DISTANCE);
-        mRemoteLayouts[2] = getMoveParams(topView, -REMOTE_DISTANCE, -REMOTE_DISTANCE);
-        mRemoteLayouts[3] = getMoveParams(topView, -REMOTE_DISTANCE, REMOTE_DISTANCE);
+        mRemoteLayouts[0] = getMoveParams(topView, 0, -REMOTE_DISTANCE);
+        mRemoteLayouts[1] = getMoveParams(topView, 0, REMOTE_DISTANCE);
+        mRemoteLayouts[2] = getMoveParams(topView, 0, -REMOTE_DISTANCE);
+        mRemoteLayouts[3] = getMoveParams(topView, 0, REMOTE_DISTANCE);
 
     }
 
@@ -240,12 +240,12 @@ public class CardAnimator{
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) topView.getLayoutParams();
         RelativeLayout.LayoutParams topViewLayouts = mLayoutsMap.get(topView);
         int x_diff = (int)((e2.getRawX()-e1.getRawX()));
-        int y_diff = (int)((e2.getRawY()-e1.getRawY()));
+//        int y_diff = (int)((e2.getRawY()-e1.getRawY()));
 
         layoutParams.leftMargin  = topViewLayouts.leftMargin+ x_diff;
         layoutParams.rightMargin = topViewLayouts.rightMargin - x_diff;
-        layoutParams.topMargin  = topViewLayouts.topMargin + y_diff;
-        layoutParams.bottomMargin  = topViewLayouts.bottomMargin - y_diff;
+//        layoutParams.topMargin  = topViewLayouts.topMargin + y_diff;
+//        layoutParams.bottomMargin  = topViewLayouts.bottomMargin - y_diff;
 
         mRotation = (x_diff/rotation_coefficient);
         topView.setRotation(mRotation);
