@@ -148,6 +148,8 @@ public class CardAnimator{
         RelativeLayout.LayoutParams topParams = (RelativeLayout.LayoutParams) topView.getLayoutParams();
         RelativeLayout.LayoutParams layout = cloneParams(topParams);
         ValueAnimator discardAnim = ValueAnimator.ofObject(new RelativeLayoutParamsEvaluator(),layout, mRemoteLayouts[direction]);
+        ValueAnimator discardRotatationAnim = ValueAnimator.ofFloat(topView.getRotation(), direction == DIRECTION_LEFT ? -45 : 45);
+        discardRotatationAnim.start();
 
         discardAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -156,8 +158,17 @@ public class CardAnimator{
             }
         });
 
+        discardRotatationAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                topView.setRotation((Float) animation.getAnimatedValue());
+            }
+        });
+
         discardAnim.setDuration(250);
+        discardRotatationAnim.setDuration(250);
         aCollection.add(discardAnim);
+        aCollection.add(discardRotatationAnim);
 
         for(int i = 0; i< mCardCollection.size();i++){
             final View v = mCardCollection.get(i);
