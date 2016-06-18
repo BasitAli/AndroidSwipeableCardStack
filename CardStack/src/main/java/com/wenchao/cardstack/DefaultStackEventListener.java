@@ -20,7 +20,7 @@ public class DefaultStackEventListener implements CardStack.CardEventListener {
     }
 
     @Override
-    public boolean swipeContinue(int section, float distanceX, float distanceY) {
+    public boolean swipeContinue(int section, float distance) {
         return false;
     }
 

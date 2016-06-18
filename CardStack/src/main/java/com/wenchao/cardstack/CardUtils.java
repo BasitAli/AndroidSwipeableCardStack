@@ -6,10 +6,8 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class CardUtils {
-    final static int DIRECTION_TOP_LEFT = 0;
-    final static int DIRECTION_TOP_RIGHT = 1;
-    final static int DIRECTION_BOTTOM_LEFT = 2;
-    final static int DIRECTION_BOTTOM_RIGHT = 3;
+    final static int DIRECTION_LEFT = 0;
+    final static int DIRECTION_RIGHT = 1;
 
     public static void scale(View v, int pixel){
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)v.getLayoutParams();
@@ -37,13 +35,11 @@ public class CardUtils {
     }
 
     public static LayoutParams scaleFrom(View v, LayoutParams params, int pixel) {
-        Log.d("pixel", "onScroll: " + pixel);
         params = cloneParams(params);
         params.leftMargin -= pixel;
         params.rightMargin -= pixel;
         params.topMargin -= pixel;
         params.bottomMargin -= pixel;
-        Log.d("pixel", "onScroll: " + pixel);
         v.setLayoutParams(params);
 
         return params;
@@ -77,26 +73,16 @@ public class CardUtils {
         return copy;
     }
 
-    public static float distance(float x1, float y1, float x2, float y2) {
-
-        return (float) Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+    public static float distance(float x1, float x2) {
+        return Math.abs(x2 - x1);
     }
 
-    public static int direction(float x1, float y1, float x2, float y2) {
-        if(x2>x1){//RIGHT
-            if(y2>y1){//BOTTOM
-                return DIRECTION_BOTTOM_RIGHT;
-            }else{//TOP
-                return DIRECTION_TOP_RIGHT;
-            }
-        }else{//LEFT
-            if(y2>y1){//BOTTOM
-                return DIRECTION_BOTTOM_LEFT;
-            }else{//TOP
-                return DIRECTION_TOP_LEFT;
-            }
+    public static int direction(float x1, float x2) {
+        if (x2 > x1) {
+            return DIRECTION_RIGHT;
+        } else {
+            return DIRECTION_LEFT;
         }
     }
-
 
 }

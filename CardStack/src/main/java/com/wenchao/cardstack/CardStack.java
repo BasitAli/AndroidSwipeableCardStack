@@ -36,13 +36,10 @@ public class CardStack extends RelativeLayout {
     public interface CardEventListener{
         //section
         // 0 | 1
-        //--------
-        // 2 | 3
-        // swipe distance, most likely be used with height and width of a view ;
 
         boolean swipeEnd(int section,float distance);
         boolean swipeStart(int section,float distance);
-        boolean swipeContinue(int section, float distanceX,float distanceY );
+        boolean swipeContinue(int section, float distanceX);
         void discarded(int mIndex, int direction);
         void topCardTapped();
     }
@@ -143,47 +140,41 @@ public class CardStack extends RelativeLayout {
             public boolean onDragContinue(MotionEvent e1, MotionEvent e2,
                                        float distanceX, float distanceY) {
                 float x1 = e1.getRawX();
-                float y1 = e1.getRawY();
                 float x2 = e2.getRawX();
-                float y2 = e2.getRawY();
-                //float distance = CardUtils.distance(x1,y1,x2,y2);
-                final int direction = CardUtils.direction(x1,y1,x2,y2);
-                mCardAnimator.drag(e1,e2,distanceX,distanceY);
-                mEventListener.swipeContinue(direction, Math.abs(x2-x1),Math.abs(y2-y1));
+                final int direction = CardUtils.direction(x1, x2);
+                mCardAnimator.drag(e1, e2, distanceX, distanceY);
+                mEventListener.swipeContinue(direction, Math.abs(x2 - x1));
                 return true;
             }
 
             @Override
-            public  boolean onDragEnd(MotionEvent e1, MotionEvent e2) {
-                //reverse(e1,e2);
+            public boolean onDragEnd(MotionEvent e1, MotionEvent e2) {
                 float x1 = e1.getRawX();
-                float y1 = e1.getRawY();
                 float x2 = e2.getRawX();
-                float y2 = e2.getRawY();
-                float distance = CardUtils.distance(x1,y1,x2,y2);
-                final int direction = CardUtils.direction(x1,y1,x2,y2);
+                float distance = CardUtils.distance(x1, x2);
+                final int direction = CardUtils.direction(x1, x2);
 
                 boolean discard = mEventListener.swipeEnd(direction, distance);
-                if(discard){
-                    mCardAnimator.discard(direction, new AnimatorListenerAdapter(){
+                if (discard) {
+                    mCardAnimator.discard(direction, new AnimatorListenerAdapter() {
 
                         @Override
                         public void onAnimationEnd(Animator arg0) {
                             mCardAnimator.initLayout();
                             mIndex++;
-                            mEventListener.discarded(mIndex,direction);
+                            mEventListener.discarded(mIndex, direction);
 
                             //mIndex = mIndex%mAdapter.getCount();
                             loadLast();
 
                             viewCollection.get(0).setOnTouchListener(null);
-                            viewCollection.get(viewCollection.size()-1)
+                            viewCollection.get(viewCollection.size() - 1)
                                     .setOnTouchListener(mOnTouchListener);
                         }
 
                     });
-                }else{
-                    mCardAnimator.reverse(e1,e2);
+                } else {
+                    mCardAnimator.reverse(e1, e2);
                 }
                 return true;
             }
