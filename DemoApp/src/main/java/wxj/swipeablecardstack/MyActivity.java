@@ -58,7 +58,7 @@ public class MyActivity extends Activity {
             return true;
         }
         else if (id == R.id.action_reverse) {
-            mCardStack.reverseTop(1);
+            mCardStack.reverseTop(1, false);
             return true;
         }
         return super.onOptionsItemSelected(item);
