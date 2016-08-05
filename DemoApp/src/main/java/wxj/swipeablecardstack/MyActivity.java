@@ -18,6 +18,8 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
+        setTitle("Demo");
+
         mCardStack = (CardStack)findViewById(R.id.container);
 
         mCardStack.setContentResource(R.layout.card_content);
@@ -51,7 +53,12 @@ public class MyActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_discard) {
+            mCardStack.discardTop(1);
+            return true;
+        }
+        else if (id == R.id.action_reverse) {
+            mCardStack.reverseTop(1);
             return true;
         }
         return super.onOptionsItemSelected(item);

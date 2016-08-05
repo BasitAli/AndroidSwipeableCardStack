@@ -61,6 +61,13 @@ public class CardStack extends RelativeLayout {
         });
     }
 
+    public void reverseTop(final int direction){
+        if (mIndex == 0) return;
+        mIndex--;
+        reset(false);
+        mCardAnimator.reverse(direction);
+    }
+
     public int getCurrIndex(){
         //sync?
         return mIndex;
@@ -174,7 +181,7 @@ public class CardStack extends RelativeLayout {
 
                     });
                 } else {
-                    mCardAnimator.reverse(e1, e2);
+                    mCardAnimator.reverseDelta(e1, e2);
                 }
                 return true;
             }

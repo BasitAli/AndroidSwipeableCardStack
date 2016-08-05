@@ -215,7 +215,49 @@ public class CardAnimator{
 
     }
 
-    public void reverse(MotionEvent e1, MotionEvent e2){
+    public void reverse(int direction){
+        mRotation = direction == DIRECTION_LEFT ? -45 : 45;
+        final View topView =  getTopView();
+
+        ValueAnimator rotationAnim = ValueAnimator.ofFloat(mRotation, 0f);
+        rotationAnim.setDuration(250);
+        rotationAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator v) {
+                topView.setRotation(((Float) (v.getAnimatedValue())).floatValue());
+            }
+        });
+
+        rotationAnim.start();
+
+        int size = mCardCollection.size();
+        for (final View v : mCardCollection) {
+            int index =  mCardCollection.indexOf(v);
+
+            RelativeLayout.LayoutParams layoutParams;
+            if (index >= size - 1) {
+                layoutParams = mRemoteLayouts[direction];
+            }
+            else {
+                final View nextView = mCardCollection.get(index + 1);
+                layoutParams = mLayoutsMap.get(nextView);
+            }
+
+            RelativeLayout.LayoutParams endLayout = cloneParams(layoutParams);
+            ValueAnimator layoutAnim = ValueAnimator.ofObject(new RelativeLayoutParamsEvaluator(), endLayout, mLayoutsMap.get(v));
+            layoutAnim.setDuration(250);
+            layoutAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator value) {
+                    v.setLayoutParams((LayoutParams) value.getAnimatedValue());
+                }
+            });
+            layoutAnim.start();
+        }
+
+    }
+
+    public void reverseDelta(MotionEvent e1, MotionEvent e2){
         final View topView =  getTopView();
         ValueAnimator rotationAnim = ValueAnimator.ofFloat(mRotation, 0f);
         rotationAnim.setDuration(250);
