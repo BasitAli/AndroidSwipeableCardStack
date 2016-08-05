@@ -61,10 +61,12 @@ public class CardStack extends RelativeLayout {
         });
     }
 
-    public void reverseTop(final int direction){
-        if (mIndex == 0) return;
-        mIndex--;
-        reset(false);
+    public void reverseTop(final int direction, boolean resetIndex) {
+        if (!resetIndex) {
+            if (mIndex == 0) return;
+            mIndex--;
+        }
+        reset(resetIndex);
         mCardAnimator.reverse(direction);
     }
 
